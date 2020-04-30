@@ -1,0 +1,10 @@
+{
+  "name": "FlagLog",
+  "version": "1.0.0",
+  "description": "Outputs Flag Changes In Scene/Event/Item_Get Tables",
+  "main": "FlagLog.js",
+  "keywords": [],
+  "author": "DemoXin",
+  "license": "MIT",
+  "core": "OcarinaofTime"
+}

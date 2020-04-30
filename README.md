@@ -1,2 +1,2 @@
 # Ultimate-Tracker
- Ultimate Tracker for OoTR
+ The ultimate tracker for Ocarina of Time Randomizer

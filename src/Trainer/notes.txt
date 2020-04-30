@@ -1,0 +1,5 @@
+Epona's carrots: 1EE688
+8011B9D7 00?? is for the weight of a hooked fish.
+801E3327 000A is slingshot minigame score.
+According to this random ass website, 8111B9D6 05DC is the GS code for 1500 points in the archery minigame.
+Looks like big poe score is 0x0EBE from the save context.
