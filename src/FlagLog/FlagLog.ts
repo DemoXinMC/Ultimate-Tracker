@@ -29,12 +29,6 @@ class FlagLog implements IPlugin
         this.lastInfTable = this.core.save.infTable;
     }
 
-    @EventHandler(OotEvents.ON_SCENE_CHANGE)
-    onSceneChanged(event: OotEvents.ON_SCENE_CHANGE) : void
-    {
-        this.lastSceneFlags = this.core.save.permSceneData;
-    }
-
     onTick(frame?: number | undefined): void
     {
         if (this.core.helper.isTitleScreen() || !this.core.helper.isSceneNumberValid())
@@ -51,7 +45,7 @@ class FlagLog implements IPlugin
 
     compareSceneFlags() : void
     {
-        if (this.core.helper.isLinkEnteringLoadingZone() || this.core.global.scene_framecount <= 20)
+        if (this.core.helper.isLinkEnteringLoadingZone() || this.core.global.scene_framecount <= 60)
             return;
 
         this.saveLiveSceneFlags();
@@ -84,7 +78,7 @@ class FlagLog implements IPlugin
         }
 
         this.ModLoader.logger.info("Finished Scene Flag Changes.");
-        newFlags.copy(this.lastSceneFlags);
+        this.lastSceneFlags = this.core.save.permSceneData;
     }
 
     compareEventFlags() : void
@@ -117,7 +111,7 @@ class FlagLog implements IPlugin
         }
 
         this.ModLoader.logger.info("Finished Event Flag Changes.");
-        newFlags.copy(this.lastEventFlags);
+        this.lastEventFlags = this.core.save.eventFlags;
     }
 
     compareItemFlags() : void
@@ -150,7 +144,7 @@ class FlagLog implements IPlugin
         }
 
         this.ModLoader.logger.info("Finished Item Flag Changes.");
-        newFlags.copy(this.lastItemFlags);
+        this.lastItemFlags = this.core.save.itemFlags;
     }
 
     compareInfTable() : void
@@ -184,7 +178,7 @@ class FlagLog implements IPlugin
         }
 
         this.ModLoader.logger.info("Finished Info Table Changes.");
-        newFlags.copy(this.lastInfTable);
+        this.lastInfTable = this.core.save.infTable;
     }
 
     outputChange(dataLoc: string, byte: number, bit: number, set: number)
@@ -202,15 +196,14 @@ class FlagLog implements IPlugin
         var liveSceneTemp: Buffer = this.core.global.liveSceneData_temp;
 
         var newData: Buffer = Buffer.alloc(0x1C);
-
-        // Probably needs works?
-        currentSavedSceneData.copy(newData);
         
         liveSceneChests.copy(newData, 0x0);
         liveSceneSwitch.copy(newData, 0x4);
         liveSceneCollect.copy(newData, 0x8);
         liveSceneClear.copy(newData, 0xC);
         liveSceneTemp.copy(newData, 0x10);
+        currentSavedSceneData.copy(newData, 0x14, 0x14, 0x18);
+        currentSavedSceneData.copy(newData, 0x18, 0x18, 0x1c);
 
         var savedHash = this.ModLoader.utils.hashBuffer(currentSavedSceneData);
         var newHash = this.ModLoader.utils.hashBuffer(newData);
